@@ -1,0 +1,18 @@
+services:
+    database:
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: microservices
+            MYSQL_ROOT_PASSWORD: rootpwd
+            MYSQL_USER: micro
+            MYSQL_PASSWORD: test#pwd123
+        ports:
+            - 3306:3306
+        volumes:
+            - ./data/init:/docker-entrypoint-initdb.d
+            - mysql-data:/var/lib/mysql
+
+volumes:
+    mysql-data:
+
