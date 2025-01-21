@@ -2,7 +2,7 @@
 
 ## Leírás
 
-A feladatunk egy kitalált webshopnak a backendjének implementálása mikroszervíz architektúrában. Termékeket tudunk lekérni, módosítani. Regisztrálhatunk és beléphetünk ebbe a fiókunkba, így mégtöbb feature válik elérhetővé. Termékeket tudunk rendelni (akár anoním módon is) és a korábbi rendeléseinket lekérni, a státuszukat ellenőrizni. 
+A feladatunk egy kitalált webshop backendjének az implementálása mikroszervíz architektúrában. Termékeket tudunk lekérni, módosítani és törölni. Regisztrálhatunk, beléphetünk a fiókunkba, ezáltal mégtöbb feature válik elérhetővé. Termékeket tudunk rendelni (akár anoním módon is) és a korábbi rendeléseinket lekérni, státuszukat ellenőrizni. 
 
 ## Adatbázis kezelés
 
@@ -10,7 +10,7 @@ Az elindításhoz szükséges lesz a "Docker" alkalmazáshoz. A root könyvtárb
 
 ### Initializáció
 
-Az adatbázis, a konténer létrejöttekor végrehajtja a következő fájlban található parancsokat `data/init/init.sql`. Az itt lehet megadni milyen táblák jöjjenek létre és esetlegesen milyen kezdeti értékek kerüljenek bele.
+Az adatbázis, a konténer létrejöttekor végrehajtja a `data/init/init.sql` fájlban található parancsokat. Itt lehet megadni milyen táblák jöjjenek létre valamint milyen értékekkel töltse elő.
 
 ### Indítás
 
