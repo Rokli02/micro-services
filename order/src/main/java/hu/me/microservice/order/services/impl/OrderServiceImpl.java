@@ -12,9 +12,20 @@ import hu.me.microservice.order.models.OrderDto;
 import hu.me.microservice.order.models.OrderStatus;
 import hu.me.microservice.order.models.PageDto;
 import hu.me.microservice.order.services.OrderService;
+import hu.me.microservice.order.services.ProductService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final ProductService productService;
+    public OrderServiceImpl(ProductService productService) {
+        this.productService = productService;
+
+        if (this.productService.healthcheck()) {
+            System.out.println("A \"Product\" szervíz jelenleg elérhető");
+        } else {
+            System.out.println("A \"Product\" szervíz még nem érhető el");
+        }
+    }
 
     @Override
     public int saveMany(List<NewOrderDto> orders, Long userId) throws BadOrderException {
