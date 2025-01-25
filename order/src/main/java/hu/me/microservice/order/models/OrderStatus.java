@@ -17,4 +17,8 @@ public enum OrderStatus {
 
         return OrderStatus.UNKNOWN;
     }
+
+    public int valueOf() {
+        return this.val;
+    }
 }

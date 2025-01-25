@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageDto {
-    private Integer size;
-    private Integer offset;
+public class NewOrderDTO {
+    private Long productId;
+    private Integer quantity;
+    private String group;
 }

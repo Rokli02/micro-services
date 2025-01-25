@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "order")
+@Table(name = "product_order")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,22 +22,22 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private Long productId;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId = 1L;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Integer price;
 
-    @Column(name = "group")
+    @Column(name = "o_group")
     private String group;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Integer status;
 
     @Column(name = "created_at")

@@ -1,10 +1,11 @@
 package hu.me.microservice.order.services;
 
 import java.util.List;
+import java.util.Map;
 
-import hu.me.microservice.order.models.ProductDto;
+import hu.me.microservice.order.models.ProductDTO;
 
 public interface ProductService {
-    List<ProductDto> getByIds(List<Long> ids);
+    Map<Long, ProductDTO> getByIds(List<Long> ids);
     boolean healthcheck();
 }

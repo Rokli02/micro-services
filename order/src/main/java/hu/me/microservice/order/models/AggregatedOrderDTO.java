@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewOrderDto {
-    private Long productId;
-    private Integer quantity;
+public class AggregatedOrderDTO {
+    private Integer price;
     private String group;
+    private Integer quantity;
+    private OrderStatus status;
 }

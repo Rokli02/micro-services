@@ -21,7 +21,7 @@ public class OrderExceptionController extends ResponseEntityExceptionHandler {
         body.put("status", 400);
         body.put("message", ex.getMessage());
 
-        System.out.println(String.format("'BadOrderException' occured:", ex.getMessage()));
+        System.out.printf("'BadOrderException' occured: %s\n", ex.getMessage());
 
         return handleExceptionInternal(ex, body, null, HttpStatus.BAD_REQUEST, request);
     }
