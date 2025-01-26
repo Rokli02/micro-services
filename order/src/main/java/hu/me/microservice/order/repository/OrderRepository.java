@@ -27,4 +27,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("fromStatus") int fromStatus,
         @Param("toStatus") int toStatus
     );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE Order SET status = :toStatus WHERE status = :fromStatus")
+    int updateStatus(
+        @Param("fromStatus") int fromStatus,
+        @Param("toStatus") int toStatus
+    );
 }

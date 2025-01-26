@@ -1,5 +1,6 @@
 package hu.me.microservice.order.services.impl;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("A \"Product\" szervíz még nem érhető el");
         }
 
-        //TODO: Egy zöld szálat elindítani, ami 5 percenként updateli a megfelelő státuszú rendeléseket
+        new OrderStatusUpdaterThread(this.orderRepository, Duration.ofSeconds(30)).start();
     }
 
     @Override
