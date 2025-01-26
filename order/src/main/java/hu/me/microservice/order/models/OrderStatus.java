@@ -8,7 +8,7 @@ public enum OrderStatus {
         this.val = value;
     }
 
-    static OrderStatus getStatus(int val) {
+    public static OrderStatus getStatus(int val) {
         for (OrderStatus ts : OrderStatus.values()) {
             if (ts.val == val) {
                 return ts;

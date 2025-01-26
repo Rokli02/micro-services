@@ -1,5 +1,6 @@
 package hu.me.microservice.order.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int saveMany(List<NewOrderDTO> newOrders, Long userId) throws BadOrderException {
+    public String saveMany(List<NewOrderDTO> newOrders, Long userId) throws BadOrderException {
         List<Long> productIds = newOrders.stream().map((no) -> no.getProductId()).collect(Collectors.toList());
         Map<Long, ProductDTO> productsMap = this.productService.getByIds(productIds);
         long _userId = userId == null ? 1L : userId;
@@ -68,14 +69,16 @@ public class OrderServiceImpl implements OrderService {
             return order;
         }).filter((o) -> o != null).collect(Collectors.toList());
         
-        return orderRepository.saveAll(orders).size();
+        orderRepository.saveAll(orders);
+
+        return orderGroup;
     }
 
     @Override
-    public int finalizeOrder(String group, Long userId) throws BadOrderException {
+    public OrderStatus finalizeOrder(String group, Long userId) throws BadOrderException {
         // TODO: Adatbázis művelet a két paraméter felhasználásával -> update status
 
-        return 0;
+        return OrderStatus.UNKNOWN;
     }
 
     @Override
@@ -93,16 +96,36 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> getByGroup(String group, Long userId) {
-        // TODO: Adatbázis művelet a két paraméter felhasználásával -> get all by group and userId
-        throw new UnsupportedOperationException("Unimplemented method 'getByGroup'");
+        List<Order> orders = this.orderRepository.findAllByUserIdAndGroup(userId, group);
+
+        if (orders.size() == 0) {
+            return new ArrayList<OrderDTO>();
+        }
+
+        List<Long> productIds = orders.stream().map((o) -> o.getProductId()).collect(Collectors.toList());
+        Map<Long, ProductDTO> productsMap = this.productService.getByIds(productIds);
+
+        return orders.stream().map((o) -> OrderDTO.fromEntity(o, productsMap.get(o.getProductId()))).toList();
     }
 
     @Override
     public AggregatedOrderDTO getByGroupAggregated(String group, Long userId) {
-        // TODO: Adatbázis művelet a két paraméter felhasználásával -> get all by group and userId
+        AggregatedOrderDTO aggregatedOrder = new AggregatedOrderDTO(0, group, 0, OrderStatus.UNKNOWN);
+        List<Order> orders = this.orderRepository.findAllByUserIdAndGroup(userId, group);
 
-        // TODO: A visszakapott eredményt feldolgozni
-        return new AggregatedOrderDTO(0, "unknown", 0, OrderStatus.UNKNOWN);
+        if (orders.size() == 0) {
+            return aggregatedOrder;
+        }
+
+        
+        aggregatedOrder.setStatus(OrderStatus.getStatus(orders.get(0).getStatus()));
+
+        orders.stream().forEach((o) -> {
+            aggregatedOrder.incrementPrice(o.getPrice());
+            aggregatedOrder.incrementQuantity(o.getQuantity());
+        });
+
+        return aggregatedOrder;
     }
 
 }

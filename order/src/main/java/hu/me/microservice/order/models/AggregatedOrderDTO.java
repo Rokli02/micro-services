@@ -12,4 +12,12 @@ public class AggregatedOrderDTO {
     private String group;
     private Integer quantity;
     private OrderStatus status;
+
+    public void incrementPrice(int price) {
+        this.price += price;
+    }
+
+    public void incrementQuantity(int quantity) {
+        this.quantity += quantity;
+    }
 }

@@ -1,11 +1,11 @@
 package hu.me.microservice.order.services.impl;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 import hu.me.microservice.order.exception.BadOrderException;
@@ -28,17 +28,19 @@ public class UserServiceImpl implements UserService {
         return splitAuth[1];
     }
 
-    //TODO: Meghívni a User Service-t és tőle lekérdezni az érvényességet és az adatot, de addig is
     private UserDTO checkToken(String token) throws BadOrderException, Unauthorized {
-        if (token.equals("error")) {
-            throw new BadOrderException("Default Error token");
-        }
+        try {
 
-        if (token.equals("unauthorized")) {
-            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "Gatya");
+            String uri = "http://localhost:3001/api/auth/checkToken?token={token}";
+            RestTemplate request = new RestTemplate();
+            
+            UserDTO user = request.getForObject(uri, UserDTO.class, token);
+            
+            return user;
+        } catch (RuntimeException exc) {
+            exc.printStackTrace();
+            return null;
         }
-        
-        return new UserDTO(1L, "t_unknown", "Unknown Test", LocalDate.now());
     }
 
     @Override

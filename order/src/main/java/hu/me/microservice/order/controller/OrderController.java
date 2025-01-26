@@ -68,12 +68,12 @@ public class OrderController {
         Map<String, Object> responseBody = new HashMap<String, Object>();
 
         if (newOrders.size() == 0) {
-            responseBody.put("saved", 0);
+            responseBody.put("group", "");
 
             return ResponseEntity.ok().body(responseBody);
         }
 
-        responseBody.put("saved", this.orderService.saveMany(newOrders, userId));
+        responseBody.put("group", this.orderService.saveMany(newOrders, userId));
         
         return ResponseEntity.ok().body(responseBody);
     }
@@ -87,7 +87,7 @@ public class OrderController {
 
         Map<String, Object> responseBody = new HashMap<String, Object>();
         
-        responseBody.put("ordered", this.orderService.finalizeOrder(group, userId));
+        responseBody.put("status", this.orderService.finalizeOrder(group, userId).toString());
 
         return ResponseEntity.ok().body(responseBody);
     }
