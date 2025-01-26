@@ -41,6 +41,6 @@ public class Order {
     private Integer status;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDate createdAt = LocalDate.now();
 
 }
