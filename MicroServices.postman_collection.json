@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "940ca2de-cf9d-49b4-bfef-da272a453a40",
+		"name": "MicroServices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "41534638"
+	},
+	"item": [
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "OrderSaveMany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"productId\": 1,\n        \"quantity\": 2\n    },\n    {\n        \"productId\": 5,\n        \"quantity\": 1\n    },\n    {\n        \"productId\": 3,\n        \"quantity\": 2\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3003/api/order"
+					},
+					"response": []
+				},
+				{
+					"name": "OrderPage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/api/order?page=0&size=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"api",
+								"order"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OrderGroup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/api/order/group/1737895961789.3-3?aggregated=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"api",
+								"order",
+								"group",
+								"1737895961789.3-3"
+							],
+							"query": [
+								{
+									"key": "aggregated",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Finalize",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3003/api/order/finalize/1737895961789.3-3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "ProductSave",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Gift 50%\",\n    \"description\": \"Desc of a gift\",\n    \"basePrice\": \"100\",\n    \"discount\": \"0.5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3002/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "ProductGetBatch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[1, 2]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3002/api/products/batch"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/auth/login?username=rolo_tester&password=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "rolo_tester"
+								},
+								{
+									"key": "password",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"rolo_tester\",\n    \"password\": \"123\",\n    \"name\": \"Roland2\",\n    \"email\": \"rolo@freemail.hu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3001/api/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "UserCheckToken",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/auth/checkToken?token=cm9sb190ZXN0ZXI6Mw==",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"checkToken"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "cm9sb190ZXN0ZXI6Mw=="
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
