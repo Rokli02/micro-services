@@ -76,9 +76,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderStatus finalizeOrder(String group, Long userId) throws BadOrderException {
-        // TODO: Adatbázis művelet a két paraméter felhasználásával -> update status
+        int updatedStatusValue = this.orderRepository.updateStatusByUserIdAndGroup(userId, group, OrderStatus.CREATED.valueOf(), OrderStatus.PROCESSING.valueOf());
 
-        return OrderStatus.UNKNOWN;
+        return OrderStatus.getStatus(updatedStatusValue);
     }
 
     @Override
