@@ -25,6 +25,10 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public List<Product> getByIds(List<Long> ids) {
+        return productRepository.findByIdIn(ids);
+    }
+
     public Product save(NewProductDTO newProduct) {
         Product product = new Product();
         product.setName(newProduct.getName());

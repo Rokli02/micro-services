@@ -33,6 +33,11 @@ public class ProductController {
         return productService.getById(id);
     }
 
+    @PostMapping("/batch")
+    public List<Product> getByIds(@RequestBody List<Long> ids) {
+        return productService.getByIds(ids);
+    }
+
     @PostMapping
     public Product save(@RequestBody NewProductDTO newProduct) {
         return productService.save(newProduct);

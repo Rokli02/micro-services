@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE (:search IS NULL OR p.name LIKE %:search%) AND (:onlyActive IS NULL OR p.isActive = :onlyActive)")
     Page<Product> findProducts(Pageable pageable, String search, Boolean onlyActive);
+
+    List<Product> findByIdIn(List<Long> ids);
 }
