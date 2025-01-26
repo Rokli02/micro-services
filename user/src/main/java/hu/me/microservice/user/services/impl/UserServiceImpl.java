@@ -18,38 +18,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(String username, String password) {
-        // Felhasználó keresése adatbázisból a felhasználónév alapján
+
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
-        // Ellenőrzés, hogy a jelszó helyes-e
         if (!BCrypt.checkpw(password, user.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }
 
-        // Ellenőrzés, hogy a felhasználó aktív-e
         if (!user.isActive()) {
             throw new IllegalArgumentException("User account is not active");
         }
 
-        // Token generálása: felhasználónév és ID Base64-ben
         String token = user.getUsername() + ":" + user.getId();
         return Base64.getEncoder().encodeToString(token.getBytes());
     }
 
     @Override
     public String signUp(UserDTO newUser) {
-        // Ellenőrzés, hogy a felhasználónév foglalt-e
         if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
             return "Username is already taken";
         }
 
-        // Új User létrehozása és jelszó hashelése
         User user = new User();
         user.setUsername(newUser.getUsername());
         user.setPassword(BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()));
 
-        // Új felhasználó mentése aktív állapotban
         user.setActive(true);
         userRepository.save(user);
 
@@ -60,7 +54,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User checkToken(String token) {
         try {
-            // Token dekódolása
             String decodedToken = new String(Base64.getDecoder().decode(token));
             String[] parts = decodedToken.split(":");
 
@@ -71,7 +64,6 @@ public class UserServiceImpl implements UserService {
             String username = parts[0];
             Long id = Long.parseLong(parts[1]);
 
-            // Felhasználó keresése az adatbázisban
             Optional<User> userOptional = userRepository.findById(id);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
@@ -81,7 +73,6 @@ public class UserServiceImpl implements UserService {
             }
 
         } catch (Exception e) {
-            // Hiba esetén null-t ad vissza
             return null;
         }
         return null;
