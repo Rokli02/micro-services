@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,19 +21,26 @@ public class ProductServiceImpl implements ProductService{
 
         try {
             RestTemplate template = new RestTemplate();
-            for (Long id : ids) {
-                // RestTemplate template = new RestTemplate();
-                String uri = String.format("http://localhost:3002/api/products/%d", id);
-                
-                ProductDTO product = template.getForObject(uri, ProductDTO.class);
-    
-                if (product != null) {
-                    productsMap.put(id, product);
-                } else {
-                    System.out.printf("Warning: \"Couldn't find product for id %d\"\n", id);
+            String uri = "http://localhost:3002/api/products/batch";
+
+            @SuppressWarnings("rawtypes")
+            ResponseEntity<List> response = template.postForEntity(uri, ids, List.class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.hasBody()) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> products = response.getBody();
+
+                if (products != null && products.size() != 0) {
+
+                    for (int i = 0; i < products.size(); i++) {
+                        ProductDTO prod = ProductDTO.fromMap(products.get(i));
+
+                        productsMap.put(prod.getId(), prod);
+                    }
                 }
             }
         } catch (RuntimeException exc) {
+            exc.printStackTrace();
             throw new BadOrderException("Couldn't get product details from \"Product\" service");
         }
         
